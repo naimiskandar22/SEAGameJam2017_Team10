@@ -18,16 +18,16 @@ public class SupplierShopScript : MonoBehaviour {
 		
 	}
 
-	void OnMouseDown()
+	public void OnMouseDown()
 	{
-		if(!EventSystem.current.IsPointerOverGameObject())
-		{
+		/*(!EventSystem.current.IsPointerOverGameObject())
+		{*/
 			Debug.Log("Click");
 
-			if(CanvasManagerScript.instance.shopScript.shopCanvas.enabled == false)
+			/*if(CanvasManagerScript.instance.shopScript.shopCanvas.enabled == false)
 			{
 				CanvasManagerScript.instance.shopScript.shopCanvas.enabled = true;
-			}
+			}*/
 
 			CanvasManagerScript.instance.shopScript.currShop = this;
 
@@ -42,6 +42,6 @@ public class SupplierShopScript : MonoBehaviour {
 			//		{
 			//			CanvasManagerScript.instance.shopCanvas.enabled = false;
 			//		}
-		}
+		//}
 	}
 }
