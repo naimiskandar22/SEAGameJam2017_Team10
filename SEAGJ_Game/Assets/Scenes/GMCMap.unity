@@ -588,7 +588,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 95548851}
-  - component: {fileID: 95548852}
   m_Layer: 5
   m_Name: DayNightTime
   m_TagString: Untagged
@@ -618,29 +617,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &95548852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 95548850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd122d0a95957b34e97cdbe989684de2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  calendarImage:
-  - {fileID: 21300000, guid: 31d3a6c658b413349b64203d29522b56, type: 3}
-  - {fileID: 21300000, guid: f0eb7ac260c01064d9c8701e06c54ac7, type: 3}
-  - {fileID: 21300000, guid: c73c5d505f5aad64a918b29935bad5c7, type: 3}
-  - {fileID: 21300000, guid: 9ff1b98beb198e54594c396eca96f6c4, type: 3}
-  - {fileID: 21300000, guid: 8146dce160aeee340bf29765eba5310c, type: 3}
-  - {fileID: 21300000, guid: 4a33adedadfafcb4c8ece2eee4f5ae6f, type: 3}
-  - {fileID: 21300000, guid: 8f9e9559bfe55d94aab97f3171894cf4, type: 3}
-  currTime: 0
-  currDay: 0
-  calendarDisplay: {fileID: 2094347453}
-  timeDisplay: {fileID: 0}
 --- !u!1 &102337507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2544,7 +2520,7 @@ GameObject:
   - component: {fileID: 571092894}
   - component: {fileID: 571092898}
   m_Layer: 5
-  m_Name: ShopCanvas
+  m_Name: Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3547,6 +3523,7 @@ MonoBehaviour:
     cost: 0
     sellingPrice: 0
   GMCUi: {fileID: 0}
+  reputation: 1
   moneyDisplay: {fileID: 24339234}
   itemList: []
 --- !u!212 &942736471
@@ -5027,6 +5004,63 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1169616212}
+--- !u!1 &1206745803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1206745805}
+  - component: {fileID: 1206745804}
+  m_Layer: 0
+  m_Name: OperationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1206745804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1206745803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01d5278b591a6c4f8ac6b6b8e4ef0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  calendarImage:
+  - {fileID: 21300000, guid: 31d3a6c658b413349b64203d29522b56, type: 3}
+  - {fileID: 21300000, guid: f0eb7ac260c01064d9c8701e06c54ac7, type: 3}
+  - {fileID: 21300000, guid: c73c5d505f5aad64a918b29935bad5c7, type: 3}
+  - {fileID: 21300000, guid: 9ff1b98beb198e54594c396eca96f6c4, type: 3}
+  - {fileID: 21300000, guid: 8146dce160aeee340bf29765eba5310c, type: 3}
+  - {fileID: 21300000, guid: 4a33adedadfafcb4c8ece2eee4f5ae6f, type: 3}
+  - {fileID: 21300000, guid: 8f9e9559bfe55d94aab97f3171894cf4, type: 3}
+  currTime: 0
+  timeCheck: 0
+  currDay: 0
+  calendarDisplay: {fileID: 2094347453}
+  timeDisplay: {fileID: 1527481655}
+  customer: {fileID: 1782520553056948, guid: 1954724556b8a6e4fbb2eb1746c7f223, type: 2}
+  customerScripts: []
+  activeCustomers: []
+  idleCustomers: []
+--- !u!4 &1206745805
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1206745803}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 293.7151, y: 210.21957, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1218256923
 GameObject:
   m_ObjectHideFlags: 0
@@ -6164,6 +6198,7 @@ MonoBehaviour:
     cost: 160
     sellingPrice: 160
   GMCUi: {fileID: 542373815}
+  reputation: 1
   moneyDisplay: {fileID: 24339234}
   itemList:
   - {fileID: 1218256927}

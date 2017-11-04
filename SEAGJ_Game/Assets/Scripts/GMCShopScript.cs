@@ -9,7 +9,6 @@ public enum Items
 	RED,
 	GREEN,
 	YELLOW,
-	BLACK,
 	TOTAL,
 }
 
@@ -44,6 +43,7 @@ public class GMCShopScript : MonoBehaviour {
 	public float currTime;
 	public List<StockItem> myStocks;
 	public GameObject GMCUi;
+	public int reputation = 1;
 
 	public Text moneyDisplay;
 	public List<GMCDataScript> itemList;
@@ -59,7 +59,7 @@ public class GMCShopScript : MonoBehaviour {
 		
 	}
 
-	void UpdateMoney()
+	public void UpdateMoney()
 	{
 		moneyDisplay.text = myMoney.ToString();
 	}
@@ -77,8 +77,6 @@ public class GMCShopScript : MonoBehaviour {
 			float fillAmount = (myStocks[i].stock  * 1.0f) / ((myStocks[i].stock + myStocks[i].demand) * 1.0f);
 
 			itemList[i].supplyFill.fillAmount = fillAmount;
-
-			Debug.Log(fillAmount * 1.0f);
 		}
 	}
 
@@ -95,5 +93,10 @@ public class GMCShopScript : MonoBehaviour {
 	public void CloseGMCUI()
 	{
 		GMCUi.SetActive(false);
+
+		for(int i = 0; i < DayOperationManagerScript.instance.customerScripts.Count; i++)
+		{
+			DayOperationManagerScript.instance.customerScripts[i].CheckPurchase();
+		}
 	}
 }
