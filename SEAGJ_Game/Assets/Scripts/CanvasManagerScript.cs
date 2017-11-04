@@ -8,6 +8,7 @@ public class CanvasManagerScript : MonoBehaviour {
 	public static CanvasManagerScript instance;
 
 	public ShopCanvasScript shopScript;
+	public bool shopOpened = false;
 
 	void Awake()
 	{

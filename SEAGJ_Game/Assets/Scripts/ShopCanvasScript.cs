@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class ShopCanvasScript : MonoBehaviour {
 
-	public Canvas shopCanvas;
-
+	public GameObject shopUI;
 	public Image itemImage;
 	public Text currStock;
 	public Text currCost;
@@ -57,60 +56,20 @@ public class ShopCanvasScript : MonoBehaviour {
 		TotalCost.text = (currShop.myStocks[0].demand * currShop.myStocks[0].cost).ToString();
 	}
 
-	public void CheckPurchase()
+	public void BuyItems()
 	{
-		if((currShop.myStocks[0].demand * currShop.myStocks[0].cost) <= GMCShopScript.instance.myMoney)
-		{
-			GMCShopScript.instance.myMoney -= (currShop.myStocks[0].demand * currShop.myStocks[0].cost);
-
-			GMCShopScript.instance.moneyDisplay.text = GMCShopScript.instance.myMoney.ToString();
-
-			bool inList = false;
-
-			StockItem item = currShop.myStocks[0];
-
-			for(int i = 0; i < GMCShopScript.instance.myStocks.Count; i++)
-			{
-				if(GMCShopScript.instance.myStocks[i].myItem == currShop.myStocks[0].myItem)
-				{
-					inList = true;
-
-					int demandPurchase = currShop.myStocks[0].demand;
-
-					item = GMCShopScript.instance.myStocks[i];
-
-					item.stock += demandPurchase;
-
-					GMCShopScript.instance.myStocks[i] = item;
-				}
-			}
-
-			if(!inList)
-			{
-				item.stock = item.demand;
-
-				GMCShopScript.instance.myStocks.Add(item);
-			}
-
-			item.demand = 0;
-
-			currShop.myStocks[0] = item;
-
-			currDemand.text = currShop.myStocks[0].demand.ToString();
-		}
-
+		currShop.CheckPurchase(this);
 	}
 
 	public void CloseShop()
 	{
-		shopCanvas.enabled = false;
-
-		StockItem item = currShop.myStocks[0];
-
-		item.demand = 0;
-
-		currShop.myStocks[0] = item;
+		currShop.CloseShop();
 
 		currShop = null;
+
+		CanvasManagerScript.instance.shopOpened = false;
+
+		CanvasManagerScript.instance.shopScript.shopUI.SetActive(false);
+
 	}
 }

@@ -43,9 +43,10 @@ public class GMCShopScript : MonoBehaviour {
 	public int myMoney;
 	public float currTime;
 	public List<StockItem> myStocks;
-	public Canvas GMCStoreCanvas;
+	public GameObject GMCUi;
 
 	public Text moneyDisplay;
+	public List<GMCDataScript> itemList;
 
 
 	// Use this for initialization
@@ -61,5 +62,38 @@ public class GMCShopScript : MonoBehaviour {
 	void UpdateMoney()
 	{
 		moneyDisplay.text = myMoney.ToString();
+	}
+
+	public void UpdateGMCUI()
+	{
+		for(int i = 0; i < itemList.Count; i++)
+		{
+			itemList[i].itemData = myStocks[i];
+
+			itemList[i].itemImage.sprite = myStocks[i].myImage;
+			itemList[i].itemCost.text = myStocks[i].cost.ToString();
+			itemList[i].itemSellingPrice.text = myStocks[i].sellingPrice.ToString();
+
+			float fillAmount = (myStocks[i].stock  * 1.0f) / ((myStocks[i].stock + myStocks[i].demand) * 1.0f);
+
+			itemList[i].supplyFill.fillAmount = fillAmount;
+
+			Debug.Log(fillAmount * 1.0f);
+		}
+	}
+
+	public void OpenGMCUI()
+	{
+		if(GMCUi.activeSelf == false)
+		{
+			GMCUi.SetActive(true);
+
+			UpdateGMCUI();
+		}
+	}
+
+	public void CloseGMCUI()
+	{
+		GMCUi.SetActive(false);
 	}
 }

@@ -18,30 +18,92 @@ public class SupplierShopScript : MonoBehaviour {
 		
 	}
 
-	public void OnMouseDown()
+	public void OpenShop()
 	{
-		/*(!EventSystem.current.IsPointerOverGameObject())
-		{*/
-			Debug.Log("Click");
+		Debug.Log("Click");
 
-			/*if(CanvasManagerScript.instance.shopScript.shopCanvas.enabled == false)
-			{
-				CanvasManagerScript.instance.shopScript.shopCanvas.enabled = true;
-			}*/
+		if(!CanvasManagerScript.instance.shopOpened)
+		{
+			UpdateStat();
 
+			CanvasManagerScript.instance.shopScript.shopUI.SetActive(true);
 			CanvasManagerScript.instance.shopScript.currShop = this;
+			CanvasManagerScript.instance.shopOpened = true;
 
 			CanvasManagerScript.instance.shopScript.itemImage.sprite = myStocks[0].myImage;
 			CanvasManagerScript.instance.shopScript.currStock.text = myStocks[0].stock.ToString();
 			CanvasManagerScript.instance.shopScript.currCost.text = myStocks[0].cost.ToString();
 			CanvasManagerScript.instance.shopScript.currDemand.text = myStocks[0].demand.ToString();
 			CanvasManagerScript.instance.shopScript.TotalCost.text = (myStocks[0].demand * myStocks[0].cost).ToString();
-
-
-			//		else
-			//		{
-			//			CanvasManagerScript.instance.shopCanvas.enabled = false;
-			//		}
-		//}
+		}
 	}
+
+	public void CloseShop()
+	{
+		StockItem item = myStocks[0];
+
+		item.demand = 0;
+
+		myStocks[0] = item;
+	}
+
+	public void UpdateStat()
+	{
+		for(int i = 0; i < GMCShopScript.instance.myStocks.Count; i++)
+		{
+			if(myStocks[0].myItem == GMCShopScript.instance.myStocks[i].myItem)
+			{
+				StockItem item = GMCShopScript.instance.myStocks[i];
+
+				item.demand = 0;
+
+				myStocks[0] = item;
+			}
+		}
+	}
+
+	public void CheckPurchase(ShopCanvasScript shop)
+	{
+		if((myStocks[0].demand * myStocks[0].cost) <= GMCShopScript.instance.myMoney)
+		{
+			GMCShopScript.instance.myMoney -= (myStocks[0].demand * myStocks[0].cost);
+
+			GMCShopScript.instance.moneyDisplay.text = GMCShopScript.instance.myMoney.ToString();
+
+			bool inList = false;
+
+			StockItem item = myStocks[0];
+
+			for(int i = 0; i < GMCShopScript.instance.myStocks.Count; i++)
+			{
+				if(GMCShopScript.instance.myStocks[i].myItem == myStocks[0].myItem)
+				{
+					inList = true;
+
+					int demandPurchase = myStocks[0].demand;
+
+					item = GMCShopScript.instance.myStocks[i];
+
+					item.stock += demandPurchase;
+
+					GMCShopScript.instance.myStocks[i] = item;
+				}
+			}
+
+			if(!inList)
+			{
+				item.stock = item.demand;
+
+				GMCShopScript.instance.myStocks.Add(item);
+			}
+
+			item.demand = 0;
+
+			shop.currShop.myStocks[0] = item;
+
+			shop.currDemand.text = shop.currShop.myStocks[0].demand.ToString();
+		}
+
+	}
+
 }
