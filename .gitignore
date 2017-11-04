@@ -1,0 +1,48 @@
+# ---------------[ Unity generated ]------------------ #
+[Tt]emp/
+[Oo]bj/
+[Bb]uild
+Library/
+UnityGenerated/
+ 
+# ----[ Visual Studio / MonoDevelop generated ]------- #
+ 
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+ 
+# -------------[ OS generated ]------------------------ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# -------------[ Me generated ]------------------------ #
+Builds/
+Thumbs.db.meta
+AssetBundles/
+.vs/
+Assets/Demigiant/DOTween/Editor/DOTweenEditor.XML.meta
+Assets/Demigiant/DOTween/DOTween46.xml
+Assets/Demigiant/DOTween/DOTween46.xml.meta
+build_info.txt
+Assets/StreamingAssets/build_info.txt.meta
+Assets/UnityVS/
+Assets/UnityVS.meta
+
+Assets/MeasurementStuff/
+Assets/MeasurementStuff.meta
+Assets/Scenes/tavern template.unity
+Assets/Scenes/tavern template.unity.meta
+*.apk
