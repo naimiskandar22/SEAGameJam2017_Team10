@@ -42,9 +42,19 @@ public class DayOperationManagerScript : MonoBehaviour {
 
 		timeCheck += Time.deltaTime * 10;
 
+		UpdateDay();
+
 		if(timeCheck >= 60.0f)
 		{
-			CreateCustomers(1);
+			int count = Random.Range(1, currDay) + Random.Range(0, GMCShopScript.instance.reputation);
+
+			CreateCustomers(count);
+
+			for(int i = 0; i < customerScripts.Count; i++)
+			{
+				customerScripts[i].CheckPurchase();
+			}
+
 			timeCheck = 0f;
 			currTime++;
 
@@ -57,33 +67,46 @@ public class DayOperationManagerScript : MonoBehaviour {
 				if(currDay >= 7)
 				{
 					currDay = 0;
+
+					for(int i = 0; i < GMCShopScript.instance.weeklyLogList.Count; i++)
+					{
+						GMCShopScript.instance.weeklyLogList[i].isUpdated = false;
+						GMCShopScript.instance.weeklyLogList[i].UpdateWeeklyLog();
+					}
 				}
 			}
-
-			UpdateDay();
 		}
 	}
 
 	void UpdateDay()
 	{
-		timeDisplay.text = currTime + " : 00";
+		timeDisplay.text = currTime.ToString() + " : " + (timeCheck>=10?((int)timeCheck).ToString():"0"+((int)timeCheck).ToString());
 
 		calendarDisplay.sprite = calendarImage[currDay];
 	}
 
 	public void CreateCustomers(int createNum)
 	{
-		if(idleCustomers.Count == 0)
+		for(int i = 0; i < createNum; i++)
 		{
-			GameObject newCustomer = Instantiate(customer,Vector3.zero,Quaternion.identity);
-			idleCustomers.Add(newCustomer);
-			customerScripts.Add(newCustomer.GetComponent<CustomerScript>());
-			customerScripts[0].CreateGroceryList();
-		}
+			if(idleCustomers.Count == 0)
+			{
+				GameObject newCustomer = Instantiate(customer,Vector3.zero,Quaternion.identity);
+				idleCustomers.Add(newCustomer);
+				customerScripts.Add(newCustomer.GetComponent<CustomerScript>());
+				customerScripts[0].satisfaction = GMCShopScript.instance.reputation * 2;
 
-		idleCustomers[0].SetActive(true);
-		activeCustomers.Add(idleCustomers[0]);
-		idleCustomers.RemoveAt(0);
+				if(GMCShopScript.instance.reputation * 2 > 10)
+				{
+					customerScripts[0].satisfaction = 10;
+				}
+				customerScripts[0].CreateGroceryList();
+			}
+
+			idleCustomers[0].SetActive(true);
+			activeCustomers.Add(idleCustomers[0]);
+			idleCustomers.RemoveAt(0);
+		}
 	}
 
 	public void DeleteCustomers(CustomerScript script)

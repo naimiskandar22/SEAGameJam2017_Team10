@@ -87,6 +87,14 @@ public class SupplierShopScript : MonoBehaviour {
 					item.stock += demandPurchase;
 
 					GMCShopScript.instance.myStocks[i] = item;
+
+					for(int j = 0; j < GMCShopScript.instance.weeklyLogList.Count; j++)
+					{
+						if(myStocks[0].myItem == GMCShopScript.instance.weeklyLogList[j].stockItems)
+						{
+							GMCShopScript.instance.weeklyLogList[j].currStock += demandPurchase;
+						}
+					}
 				}
 			}
 

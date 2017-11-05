@@ -47,6 +47,12 @@ public class GMCShopScript : MonoBehaviour {
 
 	public Text moneyDisplay;
 	public List<GMCDataScript> itemList;
+	public int totalSatisfaction;
+	public int totalCustomers;
+
+	public Text reputationStatus;
+	public List<GMCWeeklyLogScript> weeklyLogList;
+	public GameObject weeklyLogGO;
 
 
 	// Use this for initialization
@@ -57,6 +63,15 @@ public class GMCShopScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public void UpdateRep()
+	{
+		float average = totalSatisfaction / totalCustomers;
+
+		reputation = (int)average;
+
+		reputationStatus.text = reputation.ToString();
 	}
 
 	public void UpdateMoney()
@@ -92,11 +107,29 @@ public class GMCShopScript : MonoBehaviour {
 
 	public void CloseGMCUI()
 	{
+		weeklyLogGO.SetActive(false);
 		GMCUi.SetActive(false);
 
 		for(int i = 0; i < DayOperationManagerScript.instance.customerScripts.Count; i++)
 		{
 			DayOperationManagerScript.instance.customerScripts[i].CheckPurchase();
+		}
+	}
+
+	public void OpenWeeklyLog()
+	{
+		if(!weeklyLogGO.activeSelf)
+		{
+			weeklyLogGO.SetActive(true);
+
+			for(int i = 0; i < weeklyLogList.Count; i++)
+			{
+				weeklyLogList[i].UpdateWeeklyLog();
+			}
+		}
+		else
+		{
+			weeklyLogGO.SetActive(false);
 		}
 	}
 }
