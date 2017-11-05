@@ -10,7 +10,7 @@ public class TutorialManager : MonoBehaviour
 
     public static TutorialManager instance { get; private set; }
 
-    public enum Tutorial_State { Start, OpenShop, HintAddPrice, AddingPrice, AddedPrice, BuyingStuff, BoughtStuff,ClosedShop,CheckBalance, FinishTutorial };
+    public enum Tutorial_State { Start, OpenShop, HintAddPrice, AddingPrice, AddedPrice, BuyingStuff, BoughtStuff, ClosedShop, CheckBalance, Checkingbalance, CheckDaily, CheckingDaily,FinishTutorial };
 
     [HideInInspector]
     public Tutorial_State t_State;
@@ -23,6 +23,10 @@ public class TutorialManager : MonoBehaviour
     GameObject buyingPanel;
     [SerializeField]
     GameObject closingPanel;
+    [SerializeField]
+    GameObject checkingPanel;
+    [SerializeField]
+    GameObject dailyPanel;
 
     public bool[] stateFinished;
 
@@ -87,7 +91,7 @@ public class TutorialManager : MonoBehaviour
             }
 
         }
-        
+
         //Debug.Log(t_State);
 
         switch(t_State)
@@ -98,7 +102,7 @@ public class TutorialManager : MonoBehaviour
                 openingPanel.GetComponent<TutorialTweener>().TryTween();
                 break;
             case Tutorial_State.HintAddPrice:
-                openingPanel.GetComponent<CanvasGroup>().DOFade(0.0f,0.7f).OnComplete(()=> { openingPanel.SetActive(false); });
+                openingPanel.GetComponent<CanvasGroup>().DOFade(0.0f,0.7f).OnComplete(() => { openingPanel.SetActive(false); });
                 StartCoroutine(DialogueManager.instance.StartDialogueWithDelay("Tutorial - Buy Item",0f,1.0f));
                 break;
             case Tutorial_State.AddingPrice:
@@ -123,6 +127,29 @@ public class TutorialManager : MonoBehaviour
                 break;
             case Tutorial_State.ClosedShop:
                 closingPanel.GetComponent<CanvasGroup>().DOFade(0.0f,0.7f).OnComplete(() => { closingPanel.SetActive(false); });
+                StartCoroutine(DialogueManager.instance.StartDialogueWithDelay("Tutorial - Check Item",0f,1.0f));
+                break;
+            case Tutorial_State.CheckBalance:
+                checkingPanel.SetActive(true);
+                checkingPanel.GetComponent<CanvasGroup>().DOFade(1.0f,1.0f).SetDelay(0.1f);
+                checkingPanel.GetComponent<TutorialTweener>().TryTween();
+                break;
+            case Tutorial_State.Checkingbalance:
+                checkingPanel.GetComponent<CanvasGroup>().DOFade(0.0f,0.7f).OnComplete(() => { checkingPanel.SetActive(false); });
+                StartCoroutine(DialogueManager.instance.StartDialogueWithDelay("Tutorial - Describe GMC",0f,1.0f));
+                break;
+            case Tutorial_State.CheckDaily:
+                dailyPanel.SetActive(true);
+                dailyPanel.GetComponent<CanvasGroup>().DOFade(1.0f,1.0f).SetDelay(0.1f);
+                dailyPanel.GetComponent<TutorialTweener>().TryTween();
+                break;
+            case Tutorial_State.CheckingDaily:
+                dailyPanel.GetComponent<CanvasGroup>().DOFade(0.0f,0.7f).OnComplete(() => { dailyPanel.SetActive(false); });
+                StartCoroutine(DialogueManager.instance.StartDialogueWithDelay("Tutorial - Describe Daily",0f,1.0f));
+                break;
+            case Tutorial_State.FinishTutorial:
+                PlayerPrefs.SetInt(LocalDataManager.saveDataDoneTutorialKey,1);
+                Destroy(gameObject);
                 break;
         }
     }
@@ -264,8 +291,8 @@ public void ChangeMode()
 
     public void ShopClicked()
     {
-        if(t_State==Tutorial_State.OpenShop)
-        SetStateFinish(t_State,true);
+        if(t_State == Tutorial_State.OpenShop)
+            SetStateFinish(t_State,true);
     }
 
     public void Added()
@@ -283,6 +310,18 @@ public void ChangeMode()
     public void Closed()
     {
         if(t_State == Tutorial_State.BoughtStuff)
+            SetStateFinish(t_State,true);
+    }
+
+    public void OpenedGMC()
+    {
+        if(t_State == Tutorial_State.CheckBalance)
+            SetStateFinish(t_State,true);
+    }
+
+    public void DailyCheck()
+    {
+        if(t_State == Tutorial_State.CheckDaily)
             SetStateFinish(t_State,true);
     }
 }

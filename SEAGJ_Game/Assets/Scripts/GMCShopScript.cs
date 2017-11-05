@@ -111,6 +111,10 @@ public class GMCShopScript : MonoBehaviour {
 			GMCUi.SetActive(true);
 
 			UpdateGMCUI();
+            if(TutorialManager.instance)
+            {
+                TutorialManager.instance.OpenedGMC();
+            }
 		}
 	}
 
@@ -135,6 +139,10 @@ public class GMCShopScript : MonoBehaviour {
 			{
 				weeklyLogList[i].UpdateWeeklyLog();
 			}
+            if(TutorialManager.instance)
+            {
+                TutorialManager.instance.DailyCheck();
+            }
 		}
 		else
 		{

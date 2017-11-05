@@ -105,8 +105,6 @@ public class CustomerScript : MonoBehaviour {
 							GMCShopScript.instance.myMoney += groceryList.sellingPrice;
 							GMCShopScript.instance.UpdateMoney();
 
-							Debug.Log("Bought");
-
 							for(int k = 0; k < GMCShopScript.instance.weeklyLogList.Count; k++)
 							{
 								if(GMCShopScript.instance.weeklyLogList[k].stockItems == groceryList.myItem)
