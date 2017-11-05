@@ -35,6 +35,11 @@ public class ShopCanvasScript : MonoBehaviour {
 
 		currDemand.text = currShop.myStocks[0].demand.ToString();
 		TotalCost.text = (currShop.myStocks[0].demand * currShop.myStocks[0].cost).ToString();
+
+        if(TutorialManager.instance)
+        {
+            TutorialManager.instance.Added();
+        }
 	}
 
 	public void DecrementAmount()
@@ -59,7 +64,11 @@ public class ShopCanvasScript : MonoBehaviour {
 	public void BuyItems()
 	{
 		currShop.CheckPurchase(this);
-	}
+        if(TutorialManager.instance)
+        {
+            TutorialManager.instance.Bought();
+        }
+    }
 
 	public void CloseShop()
 	{
@@ -71,5 +80,9 @@ public class ShopCanvasScript : MonoBehaviour {
 
 		CanvasManagerScript.instance.shopScript.shopUI.SetActive(false);
 
-	}
+        if(TutorialManager.instance)
+        {
+            TutorialManager.instance.Closed();
+        }
+    }
 }
