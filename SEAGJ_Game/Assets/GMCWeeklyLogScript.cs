@@ -34,6 +34,11 @@ public class GMCWeeklyLogScript : MonoBehaviour {
 	{
 		if(!isUpdated)
 		{
+			if(previousSale == 0)
+			{
+				previousSale = 1;
+			}
+
 			float sale = currSale / previousSale;
 
 			if(sale >= 1)
