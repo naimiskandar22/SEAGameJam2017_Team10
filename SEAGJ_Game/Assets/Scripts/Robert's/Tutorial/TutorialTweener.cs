@@ -22,9 +22,9 @@ public class TutorialTweener : MonoBehaviour {
         rightTrans.anchoredPosition += new Vector2(XFloat,0);
         upTrans.anchoredPosition += new Vector2(0,-YFloat);
         bottomTrans.anchoredPosition += new Vector2(0,YFloat);
-        leftTrans.DOAnchorPosX(XFloat,1.0f).SetRelative(true).SetDelay(0.2f);
-        rightTrans.DOAnchorPosX(-XFloat,1.0f).SetRelative(true).SetDelay(0.2f);
-        upTrans.DOAnchorPosY(YFloat,1.0f).SetRelative(true).SetDelay(0.2f);
-        bottomTrans.DOAnchorPosY(-YFloat,1.0f).SetRelative(true).SetDelay(0.2f);
+        leftTrans.DOAnchorPosX(XFloat,1.0f).SetRelative(true).SetEase(Ease.OutQuad);
+        rightTrans.DOAnchorPosX(-XFloat,1.0f).SetRelative(true).SetEase(Ease.OutQuad);
+        upTrans.DOAnchorPosY(YFloat,1.0f).SetRelative(true).SetEase(Ease.OutQuad);
+        bottomTrans.DOAnchorPosY(-YFloat,1.0f).SetRelative(true).SetEase(Ease.OutQuad);
     }
 }
