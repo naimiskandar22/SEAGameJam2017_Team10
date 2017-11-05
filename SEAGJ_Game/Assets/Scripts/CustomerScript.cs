@@ -11,7 +11,6 @@ public class CustomerScript : MonoBehaviour {
 
 	public int budget;
 	public int satisfaction;
-	bool added = false;
 	bool demanded = false;
 
 	// Use this for initialization
@@ -54,6 +53,7 @@ public class CustomerScript : MonoBehaviour {
 
 	public void CheckPurchase()
 	{
+		bool firstDemand = false;
 		bool done = true;
 		int tempList = 0;
 
@@ -75,6 +75,7 @@ public class CustomerScript : MonoBehaviour {
 
 			StockItem item = GMCShopScript.instance.myStocks[temp];
 
+			firstDemand = !demanded;
 			if(!demanded) item.demand++;
 
 			demanded = true;
@@ -98,7 +99,8 @@ public class CustomerScript : MonoBehaviour {
 							item.stock--;
 							item.demand--;
 
-							GMCShopScript.instance.totalSatisfaction += satisfaction;
+							if(firstDemand) GMCShopScript.instance.totalSatisfaction += 10;
+							else GMCShopScript.instance.totalSatisfaction += satisfaction;
 
 							GMCShopScript.instance.myStocks[j] = item;
 
@@ -124,11 +126,19 @@ public class CustomerScript : MonoBehaviour {
 					done = false;
 				}
 			}
-
+			else
+			{
+				DayOperationManagerScript.instance.DeleteCustomers(this);
+				GMCShopScript.instance.UpdateRep();
+				GMCShopScript.instance.UpdateGMCUI();
+				return;
+			}
 		}
 		else
 		{
 			DayOperationManagerScript.instance.DeleteCustomers(this);
+			GMCShopScript.instance.UpdateRep();
+			GMCShopScript.instance.UpdateGMCUI();
 			return;
 		}
 
@@ -158,10 +168,11 @@ public class CustomerScript : MonoBehaviour {
 			DayOperationManagerScript.instance.DeleteCustomers(this);
 
 			GMCShopScript.instance.UpdateRep();
+			GMCShopScript.instance.UpdateGMCUI();
 		}
 
 
-		GMCShopScript.instance.UpdateGMCUI();
+
 
 	}
 }
