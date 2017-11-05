@@ -61,8 +61,10 @@ public class GMCShopScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		UpdateMoney();
-	}
+        reputation = PlayerPrefs.GetInt(LocalDataManager.saveDataReputationKey,1);
+        myMoney = PlayerPrefs.GetInt(LocalDataManager.saveDataCashKey,1000);
+        UpdateMoney();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -81,7 +83,8 @@ public class GMCShopScript : MonoBehaviour {
 		}
 
 		reputationStatus.text = reputation.ToString();
-	}
+        PlayerPrefs.SetInt(LocalDataManager.saveDataReputationKey,reputation);
+    }
 
 	public void ItemExpire()
 	{
@@ -98,6 +101,7 @@ public class GMCShopScript : MonoBehaviour {
 	public void UpdateMoney()
 	{
 		moneyDisplay.text = myMoney.ToString();
+        PlayerPrefs.SetInt(LocalDataManager.saveDataCashKey,myMoney);
 	}
 
 	public void UpdateGMCUI()

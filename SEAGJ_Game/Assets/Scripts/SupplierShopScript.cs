@@ -20,7 +20,6 @@ public class SupplierShopScript : MonoBehaviour {
 
 	public void OpenShop()
 	{
-		Debug.Log("Click");
 
 		if(!CanvasManagerScript.instance.shopOpened)
 		{
@@ -36,6 +35,11 @@ public class SupplierShopScript : MonoBehaviour {
 			CanvasManagerScript.instance.shopScript.currDemand.text = myStocks[0].demand.ToString();
 			CanvasManagerScript.instance.shopScript.TotalCost.text = (myStocks[0].demand * myStocks[0].cost).ToString();
 		}
+
+        if(TutorialManager.instance)
+        {
+            TutorialManager.instance.ShopClicked();
+        }
 	}
 
 	public void CloseShop()

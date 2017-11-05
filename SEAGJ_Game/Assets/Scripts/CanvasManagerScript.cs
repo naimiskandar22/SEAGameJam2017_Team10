@@ -10,6 +10,15 @@ public class CanvasManagerScript : MonoBehaviour {
 	public ShopCanvasScript shopScript;
 	public bool shopOpened = false;
 
+    [SerializeField]
+    Text nameText;
+    [SerializeField]
+    Image genderImage;
+    [SerializeField]
+    Sprite maleSprite;
+    [SerializeField]
+    Sprite femaleSprite;
+
 	void Awake()
 	{
 		if(instance != null)
@@ -24,7 +33,8 @@ public class CanvasManagerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        nameText.text = LocalDataManager.instance.GetName();
+        genderImage.sprite = LocalDataManager.instance.GetGender() == 0 ? maleSprite : femaleSprite;
 	}
 	
 	// Update is called once per frame
