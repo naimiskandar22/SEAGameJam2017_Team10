@@ -97,6 +97,7 @@ public class TutorialManager : MonoBehaviour
         switch(t_State)
         {
             case Tutorial_State.OpenShop:
+                DayOperationManagerScript.instance.Pause();
                 openingPanel.SetActive(true);
                 openingPanel.GetComponent<CanvasGroup>().DOFade(1.0f,1.0f).SetDelay(0.1f);
                 openingPanel.GetComponent<TutorialTweener>().TryTween();
@@ -150,6 +151,7 @@ public class TutorialManager : MonoBehaviour
             case Tutorial_State.FinishTutorial:
                 PlayerPrefs.SetInt(LocalDataManager.saveDataDoneTutorialKey,1);
                 Destroy(gameObject);
+                DayOperationManagerScript.instance.Play();
                 break;
         }
     }

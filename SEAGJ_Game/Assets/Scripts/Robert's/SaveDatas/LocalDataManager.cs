@@ -16,9 +16,6 @@ public class LocalDataManager : MonoBehaviour
     int cash;
     int doneTutorial;
 
-    [SerializeField]
-    bool debugProfile;
-
     public static string saveDataNameKey = "KEY_NAME";
     public static string saveDataGenderKey = "KEY_GENDER";
     public static string saveDataReputationKey = "KEY_REPUTATION";
@@ -33,10 +30,6 @@ public class LocalDataManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
-        if(debugProfile)
-        {
-            PlayerPrefs.SetInt(saveDataDoneTutorialKey,1);
         }
 
         if(clearData)

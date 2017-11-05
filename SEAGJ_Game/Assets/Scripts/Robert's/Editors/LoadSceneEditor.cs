@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(LoadScene))]
 public class LoadSceneEditor : Editor 
 {
@@ -75,3 +77,4 @@ public class LoadSceneEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif
