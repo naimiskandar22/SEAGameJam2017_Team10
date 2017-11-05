@@ -71,6 +71,11 @@ public class GMCShopScript : MonoBehaviour {
 
 		reputation = (int)average;
 
+		if(reputation < 1)
+		{
+			reputation = 1;
+		}
+
 		reputationStatus.text = reputation.ToString();
 	}
 

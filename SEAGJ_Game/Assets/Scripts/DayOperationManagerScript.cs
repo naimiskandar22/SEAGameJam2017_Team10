@@ -40,39 +40,46 @@ public class DayOperationManagerScript : MonoBehaviour {
 	void Update () 
 	{
 
-		timeCheck += Time.deltaTime * 10;
+		timeCheck += Time.deltaTime * 30;
 
 		UpdateDay();
 
 		if(timeCheck >= 60.0f)
 		{
-			int count = Random.Range(1, currDay) + Random.Range(0, GMCShopScript.instance.reputation);
+			timeCheck = 0f;
+			currTime++;
 
-			CreateCustomers(count);
+			int count = Random.Range(1, currDay) + Random.Range(0, GMCShopScript.instance.reputation);
+			Debug.Log(count);
 
 			for(int i = 0; i < customerScripts.Count; i++)
 			{
 				customerScripts[i].CheckPurchase();
 			}
 
-			timeCheck = 0f;
-			currTime++;
+			CreateCustomers(count);
+
 
 			if(currTime >= 24)
 			{
+				for(int i = 0; i < GMCShopScript.instance.weeklyLogList.Count; i++)
+				{
+					GMCShopScript.instance.weeklyLogList[i].isUpdated = false;
+					GMCShopScript.instance.weeklyLogList[i].UpdateWeeklyLog();
+				}
+
 				currTime = 0;
 
 				currDay++;
 
 				if(currDay >= 7)
 				{
-					currDay = 0;
-
-					for(int i = 0; i < GMCShopScript.instance.weeklyLogList.Count; i++)
+					for(int i = customerScripts.Count/2; i < customerScripts.Count; i++)
 					{
-						GMCShopScript.instance.weeklyLogList[i].isUpdated = false;
-						GMCShopScript.instance.weeklyLogList[i].UpdateWeeklyLog();
+						DeleteCustomers(customerScripts[i]);
 					}
+
+					currDay = 0;
 				}
 			}
 		}
@@ -94,7 +101,7 @@ public class DayOperationManagerScript : MonoBehaviour {
 				GameObject newCustomer = Instantiate(customer,Vector3.zero,Quaternion.identity);
 				idleCustomers.Add(newCustomer);
 				customerScripts.Add(newCustomer.GetComponent<CustomerScript>());
-				customerScripts[0].satisfaction = GMCShopScript.instance.reputation * 2;
+				customerScripts[0].satisfaction = Random.Range(GMCShopScript.instance.reputation, 11);
 
 				if(GMCShopScript.instance.reputation * 2 > 10)
 				{
@@ -119,10 +126,5 @@ public class DayOperationManagerScript : MonoBehaviour {
 			idleCustomers.Add(activeCustomers[0]);
 			activeCustomers.RemoveAt(0);
 		}
-	}
-
-	public void WeeklyLog()
-	{
-		
 	}
 }

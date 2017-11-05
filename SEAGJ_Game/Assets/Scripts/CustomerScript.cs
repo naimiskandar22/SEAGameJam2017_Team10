@@ -8,11 +8,11 @@ public class CustomerScript : MonoBehaviour {
 	public StockItem groceryList;
 
 	public int needList;
-	public int wantList;
 
 	public int budget;
 	public int satisfaction;
 	bool added = false;
+	bool demanded = false;
 
 	// Use this for initialization
 	void Start () {
@@ -35,9 +35,15 @@ public class CustomerScript : MonoBehaviour {
 
 		groceryList = item;
 
-		rand = Random.Range(0, DayOperationManagerScript.instance.currDay) + Random.Range(0, GMCShopScript.instance.reputation);
+		rand = Random.Range(1, DayOperationManagerScript.instance.currDay) + Random.Range(GMCShopScript.instance.reputation, 11);
 
 		needList = rand;
+
+		if(needList <= 0)
+		{
+			DayOperationManagerScript.instance.DeleteCustomers(this);
+			return;
+		}
 
 		int num = Random.Range(1, 3);
 
@@ -49,7 +55,7 @@ public class CustomerScript : MonoBehaviour {
 	public void CheckPurchase()
 	{
 		bool done = true;
-		List<int> tempList = new List<int>();
+		int tempList = 0;
 
 		int rand = Random.Range(0, 10);
 
@@ -69,7 +75,9 @@ public class CustomerScript : MonoBehaviour {
 
 			StockItem item = GMCShopScript.instance.myStocks[temp];
 
-			item.demand++;
+			if(!demanded) item.demand++;
+
+			demanded = true;
 
 			GMCShopScript.instance.myStocks[temp] = item;
 
@@ -90,10 +98,13 @@ public class CustomerScript : MonoBehaviour {
 							item.stock--;
 							item.demand--;
 
+							GMCShopScript.instance.totalSatisfaction += satisfaction;
+
 							GMCShopScript.instance.myStocks[j] = item;
 
 							GMCShopScript.instance.myMoney += groceryList.sellingPrice;
 							GMCShopScript.instance.UpdateMoney();
+
 							Debug.Log("Bought");
 
 							for(int k = 0; k < GMCShopScript.instance.weeklyLogList.Count; k++)
@@ -109,19 +120,23 @@ public class CustomerScript : MonoBehaviour {
 				}
 				else
 				{
-					tempList.Add(groceryList.sellingPrice);
-
+					tempList = groceryList.sellingPrice;
+					done = false;
 				}
 			}
 
 		}
-
-		for(int i = 0; i < tempList.Count; i++)
+		else
 		{
-			if(budget >= tempList[i])
+			DayOperationManagerScript.instance.DeleteCustomers(this);
+			return;
+		}
+
+		if(!done)
+		{
+			if(budget >= tempList)
 			{
 				done = false;
-				added = true;
 
 				GMCShopScript.instance.totalSatisfaction -= satisfaction;
 
@@ -141,7 +156,6 @@ public class CustomerScript : MonoBehaviour {
 		if(done)
 		{
 			DayOperationManagerScript.instance.DeleteCustomers(this);
-			if(!added) GMCShopScript.instance.totalSatisfaction += satisfaction;
 
 			GMCShopScript.instance.UpdateRep();
 		}
