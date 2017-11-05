@@ -11,7 +11,8 @@ public class DayOperationManagerScript : MonoBehaviour {
 	public int currDay;
 	public Image calendarDisplay;
 	public Text timeDisplay;
-	
+	bool isPaused = false;
+
 	public GameObject customer;
 	public List<CustomerScript> customerScripts;
 	public List<GameObject> activeCustomers = new List<GameObject>();
@@ -40,7 +41,7 @@ public class DayOperationManagerScript : MonoBehaviour {
 	void Update () 
 	{
 
-		timeCheck += Time.deltaTime * 30;
+		if(!isPaused) timeCheck += Time.deltaTime * 10;
 
 		UpdateDay();
 
@@ -62,6 +63,10 @@ public class DayOperationManagerScript : MonoBehaviour {
 
 			if(currTime >= 24)
 			{
+				GMCShopScript.instance.WinLoseCondition();
+				GMCShopScript.instance.ItemExpire();
+				GMCShopScript.instance.UpdateGMCUI();
+
 				for(int i = 0; i < GMCShopScript.instance.weeklyLogList.Count; i++)
 				{
 					GMCShopScript.instance.weeklyLogList[i].isUpdated = false;
@@ -126,5 +131,24 @@ public class DayOperationManagerScript : MonoBehaviour {
 			idleCustomers.Add(activeCustomers[0]);
 			activeCustomers.RemoveAt(0);
 		}
+	}
+
+	public void Play()
+	{
+		isPaused = false;
+
+		Time.timeScale = 1.0f;
+	}
+
+	public void Pause()
+	{
+		isPaused = true;
+
+		Time.timeScale = 0.0f;
+	}
+
+	public void SpeedUp()
+	{
+		Time.timeScale = 2.0f;
 	}
 }

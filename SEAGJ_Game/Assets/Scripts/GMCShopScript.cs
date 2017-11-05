@@ -21,6 +21,8 @@ public struct StockItem
 	public int demand;
 	public int cost;
 	public int sellingPrice;
+	public float lifespan;
+
 }
 
 public class GMCShopScript : MonoBehaviour {
@@ -53,6 +55,8 @@ public class GMCShopScript : MonoBehaviour {
 	public Text reputationStatus;
 	public List<GMCWeeklyLogScript> weeklyLogList;
 	public GameObject weeklyLogGO;
+	public GameObject GameOverGO;
+	public Text WinLoseText;
 
 
 	// Use this for initialization
@@ -73,14 +77,26 @@ public class GMCShopScript : MonoBehaviour {
 
 		reputation = (int)average;
 
-		if(reputation < 1)
+		if(reputation < 0)
 		{
-			reputation = 1;
+			reputation = 0;
 		}
 
 		reputationStatus.text = reputation.ToString();
         PlayerPrefs.SetInt(LocalDataManager.saveDataReputationKey,reputation);
     }
+
+	public void ItemExpire()
+	{
+		for(int i = 0; i < myStocks.Count; i++)
+		{
+			StockItem item = myStocks[i];
+
+			item.stock = (int)(item.stock * myStocks[i].lifespan);
+
+			myStocks[i] = item; 
+		}
+	}
 
 	public void UpdateMoney()
 	{
@@ -147,6 +163,39 @@ public class GMCShopScript : MonoBehaviour {
 		else
 		{
 			weeklyLogGO.SetActive(false);
+		}
+	}
+
+	public void WinLoseCondition()
+	{
+		bool EndGame = false;
+		bool Win = false;
+
+		if(myMoney >= 10000)
+		{
+			EndGame = true;
+			Win = true;
+		}
+
+		if(reputation <= 1)
+		{
+			EndGame = true;
+			Win = false;
+		}
+
+		if(EndGame)
+		{
+			Time.timeScale = 0f;
+			GameOverGO.SetActive(true);
+
+			if(Win)
+			{
+				WinLoseText.text = "The Cun Cun App was a success!";
+			}
+			else
+			{
+				WinLoseText.text = "The Cun Cun App didn't make it";
+			}
 		}
 	}
 }
